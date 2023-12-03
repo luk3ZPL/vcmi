@@ -414,7 +414,7 @@ void CClient::initPlayerEnvironments()
 			hasHumanPlayer = true;
 	}
 
-	if(!hasHumanPlayer)
+	if(!hasHumanPlayer && !settings["session"]["headless"].Bool())
 	{
 		Settings session = settings.write["session"];
 		session["spectate"].Bool() = true;
@@ -439,7 +439,7 @@ void CClient::initPlayerInterfaces()
 		if(!vstd::contains(playerint, color))
 		{
 			logNetwork->info("Preparing interface for player %s", color.toString());
-			if(playerInfo.second.isControlledByAI())
+			if(playerInfo.second.isControlledByAI() || settings["session"]["onlyai"].Bool())
 			{
 				bool alliedToHuman = false;
 				for(auto & allyInfo : gs->scenarioOps->playerInfos)
